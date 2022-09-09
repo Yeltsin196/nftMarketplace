@@ -19,6 +19,8 @@
     "paths": {
       "@ui": ["components/ui"],
       "@ui/*": ["components/ui/*"],
+      "@providers": ["components/providers"],
+      "@providers/*": ["components/providers/*"],
       "@_types/*": ["types/*"]
     }
   },
@@ -27,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     "example.d.ts",
-    "components/ui/link/index.tss"
+    "components/ui/link/index.ts"
   ],
   "exclude": ["node_modules"]
 }

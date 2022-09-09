@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../navbar";
+import Styles from "./styles.module.scss";
 interface BaseLayoutProps {
   children?: React.ReactNode;
 }
