@@ -19,6 +19,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.54.8",
+    "swr": "^1.1.2",
     "truffle": "^5.5.29"
   },
   "devDependencies": {
