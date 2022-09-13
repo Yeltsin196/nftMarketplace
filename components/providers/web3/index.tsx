@@ -11,6 +11,7 @@ import { MetaMaskInpageProvider } from "@metamask/providers";
 import { Contract, providers } from "ethers";
 import { createDefaultState, loadContract, Web3State } from "./utils";
 import { ethers } from "ethers";
+import { setupHooks } from "./../../../hooks/web3/setupHooks";
 interface web3ContextProps {
   children?: React.ReactNode;
 }
@@ -32,6 +33,7 @@ const Web3Provider: FunctionComponent<web3ContextProps> = ({ children }) => {
         provider: provider,
         contract: contract,
         isLoading: true,
+        hooks: setupHooks({ ethereum: window.ethereum, provider, contract }),
       });
     }
     initWeb3();
