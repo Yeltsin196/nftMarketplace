@@ -9,7 +9,12 @@ import {
 import { MetaMaskInpageProvider } from "@metamask/providers";
 
 import { Contract, providers } from "ethers";
-import { createDefaultState, loadContract, Web3State } from "./utils";
+import {
+  createDefaultState,
+  createWeb3State,
+  loadContract,
+  Web3State,
+} from "./utils";
 import { ethers } from "ethers";
 import { setupHooks } from "./../../../hooks/web3/setupHooks";
 interface web3ContextProps {
@@ -28,13 +33,14 @@ const Web3Provider: FunctionComponent<web3ContextProps> = ({ children }) => {
       );
       const contract = await loadContract("NftMarket", provider);
       const ethereum = window.ethereum;
-      setWeb3Api({
-        ethereum: ethereum,
-        provider: provider,
-        contract: contract,
-        isLoading: true,
-        hooks: setupHooks({ ethereum: window.ethereum, provider, contract }),
-      });
+      setWeb3Api(
+        createWeb3State({
+          ethereum: window.ethereum,
+          provider,
+          contract,
+          isLoading: false,
+        })
+      );
     }
     initWeb3();
   }, []);
@@ -46,6 +52,10 @@ const Web3Provider: FunctionComponent<web3ContextProps> = ({ children }) => {
 
 export function useWeb3() {
   return useContext(Web3Context);
+}
+export function useHooks() {
+  const { hooks } = useWeb3();
+  return hooks;
 }
 
 export default Web3Provider;
