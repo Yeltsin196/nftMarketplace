@@ -1,28 +1,40 @@
-// SPDX-License-Identifier: MIT
-pragma solidity >=0.4.22 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
+const NftMarket = artifacts.require("NftMarket");
 
-contract NftMarket is ERC721URIStorage {
-  using Counters for Counters.Counter;
+contract("NftMarket", accounts => {
+  let _contract = null;
 
-  Counters.Counter private _listedItems;
-  Counters.Counter private _tokenIds;
+  before(async () => {
+    _contract = await NftMarket.deployed();
+  })
 
+  describe("Mint token", () => {
+    const tokenURI = "https://test.com";
+    before(async () => {
+      await _contract.mintToken(tokenURI, {
+        from: accounts[0]
+      })
+    })
 
-  constructor() ERC721("CreaturesNFT", "CNFT") {}
+    it("owner of the first token should be address[0]", async () => {
+      const owner = await _contract.ownerOf(1);
+      assert.equal(owner, accounts[0], "Owner of token is not matching address[0]");
+    })
 
-  function mintToken(string memory tokenURI) public payable returns (uint) {
-    _tokenIds.increment();
-    _listedItems.increment();
+    it("first token should point to the correct tokenURI", async () => {
+      const actualTokenURI = await _contract.tokenURI(1);
 
-    uint newTokenId = _tokenIds.current();
+      assert.equal(actualTokenURI, tokenURI, "tokenURI is not correctly set");
+    })
 
-    _safeMint(msg.sender, newTokenId);
-    _setTokenURI(newTokenId, tokenURI);
-
-    return newTokenId;
-  }
-
-}
+    it("should not be possible to create a NFT with used tokenURI", async () => {
+      try {
+        await _contract.mintToken(tokenURI, {
+          from: accounts[0]
+        })
+      } catch(error) {
+        assert(error, "NFT was minted with previously used tokenURI");
+      }
+    })
+  })
+})
