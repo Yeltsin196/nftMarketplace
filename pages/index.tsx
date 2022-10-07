@@ -23,7 +23,7 @@ const Home: NextPage = () => {
               Mint a NFT to get unlimited ownership forever!
             </p>
           </div>
-          <NftList nfts={nfts.data as Nft[]} />
+          <NftList />
         </div>
       </div>
     </BaseLayout>
