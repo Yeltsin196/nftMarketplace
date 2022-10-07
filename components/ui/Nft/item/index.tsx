@@ -1,15 +1,16 @@
-import React from "react";
-import { NftMeta } from "@_types/nft";
+import React, { FunctionComponent } from "react";
+import { NftMeta, Nft } from "@_types/nft";
+
 type NftItemProps = {
-  item: NftMeta;
+  item: Nft;
 };
-export const NftItem: React.FC<NftItemProps> = ({ item }) => {
+export const NftItem: FunctionComponent<NftItemProps> = ({ item }) => {
   return (
     <>
       <div className="flex-shrink-0">
         <img
           className={`h-full w-full object-cover`}
-          src={item.image}
+          src={item.meta.image}
           alt="New NFT"
         />
       </div>
@@ -17,9 +18,11 @@ export const NftItem: React.FC<NftItemProps> = ({ item }) => {
         <div className="flex-1">
           <p className="text-sm font-medium text-indigo-600">Creatures NFT</p>
           <div className="block mt-2">
-            <p className="text-xl font-semibold text-gray-900">{item.name}</p>
+            <p className="text-xl font-semibold text-gray-900">
+              {item.meta.name}
+            </p>
             <p className="mt-3 mb-3 text-base text-gray-500">
-              {item.description}
+              {item.meta.description}
             </p>
           </div>
         </div>
@@ -35,23 +38,24 @@ export const NftItem: React.FC<NftItemProps> = ({ item }) => {
                   <img
                     className="h-6"
                     src="/images/small-eth.webp"
-                    alt="Ether icon"
+                    alt="ether icon"
                   />
                 </div>
               </dd>
             </div>
-            {item.attributes.map((attribute, index) => {
-              return (
-                <div key={index} className="flex flex-col px-4 pt-4">
-                  <dt className="order-2 text-sm font-medium text-gray-500">
-                    {attribute.trait_type}
-                  </dt>
-                  <dd className="order-1 text-xl font-extrabold text-indigo-600">
-                    {attribute.value}
-                  </dd>
-                </div>
-              );
-            })}
+            {item.meta.attributes.map((attribute) => (
+              <div
+                key={attribute.trait_type}
+                className="flex flex-col px-4 pt-4"
+              >
+                <dt className="order-2 text-sm font-medium text-gray-500">
+                  {attribute.trait_type}
+                </dt>
+                <dd className="order-1 text-xl font-extrabold text-indigo-600">
+                  {attribute.value}
+                </dd>
+              </div>
+            ))}
           </dl>
         </div>
         <div>
