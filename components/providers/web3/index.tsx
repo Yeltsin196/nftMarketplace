@@ -1,6 +1,7 @@
 import {
   createContext,
   FunctionComponent,
+  ReactNode,
   useContext,
   useEffect,
   useState,
@@ -37,8 +38,10 @@ const removeGlobalListeners = (ethereum: MetaMaskInpageProvider) => {
 };
 
 const Web3Context = createContext<Web3State>(createDefaultState());
-
-const Web3Provider: FunctionComponent = ({ children }: any) => {
+interface Props {
+  children: React.ReactNode;
+}
+const Web3Provider: FunctionComponent<Props> = ({ children }) => {
   const [web3Api, setWeb3Api] = useState<Web3State>(createDefaultState());
 
   useEffect(() => {
